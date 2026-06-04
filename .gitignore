@@ -1,0 +1,23 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+
+# Virtual envs
+venv/
+.venv/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+CLAUDE.md
+/.claude

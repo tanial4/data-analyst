@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "data-analyst"
+version = "0.1.0"
+description = "AI Agent Data Analyst — a tool-calling LLM agent over tabular data with a Gradio UI."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "openpyxl>=3.1",
+    "tabulate>=0.9",
+    "gradio>=4.44,<5",
+    "langchain-groq>=0.2",
+    "langchain-core>=0.3",
+    "pydantic>=2.5",
+    "pydantic-settings>=2.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+data-analyst = "data_analyst.ui.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
