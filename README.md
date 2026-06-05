@@ -1,3 +1,16 @@
+---
+title: Data Analyst
+emoji: "\U0001F4C8"
+colorFrom: gray
+colorTo: green
+sdk: gradio
+sdk_version: 6.16.0
+app_file: app.py
+python_version: "3.11"
+pinned: false
+short_description: Conversational analysis for CSV & Excel data
+---
+
 # AI Agent Data Analyst
 
 A tool-calling LLM agent that analyzes tabular data through natural-language

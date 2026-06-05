@@ -232,7 +232,13 @@ def main() -> None:
     _bypass_proxy_for_localhost()
     settings = get_settings()
 
-    if settings.share and settings.auth is None:
+    # On Hugging Face Spaces (SPACE_ID is set) the platform proxies a single
+    # container, so bind all interfaces and never open a Gradio share tunnel.
+    on_spaces = bool(os.environ.get("SPACE_ID"))
+    server_name = "0.0.0.0" if on_spaces else settings.server_name
+    share = False if on_spaces else settings.share
+
+    if share and settings.auth is None:
         logger.warning(
             "SHARE=true with no auth: the public link is open to anyone who has it "
             "(they can upload data and consume your API key). Set AUTH_USER/AUTH_PASSWORD to gate it."
@@ -240,9 +246,9 @@ def main() -> None:
 
     demo = build_demo()
     demo.launch(
-        server_name=settings.server_name,
+        server_name=server_name,
         server_port=settings.server_port,
-        share=settings.share,
+        share=share,
         show_error=settings.show_error,
         auth=settings.auth,
         max_file_size=f"{settings.max_upload_mb}mb",
