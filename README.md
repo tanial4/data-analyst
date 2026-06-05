@@ -54,7 +54,7 @@ in `.env` to expose a public tunnel.
 ## Test
 
 ```powershell
-pytest                   # 36 tests, no API key required
+pytest                   # 41 tests, no API key required
 ```
 
 The deterministic core (loader, filters, operations, charts, tools) is fully
@@ -87,3 +87,28 @@ All settings are environment variables (see `.env.example`):
 | `MAX_AGENT_ITERATIONS` | `6` | Max tool-calling rounds per question |
 | `SERVER_NAME` / `SERVER_PORT` | `127.0.0.1` / `7860` | |
 | `SHARE` | `false` | Public Gradio tunnel |
+| `AUTH_USER` / `AUTH_PASSWORD` | — | Set both to gate the app with a login |
+| `MAX_UPLOAD_MB` | `50` | Reject larger uploads (memory guard) |
+| `SHOW_ERROR` | `false` | Show raw tracebacks in the UI (debug only) |
+
+## Security
+
+This app has been hardened against the common risks of an LLM data tool:
+
+- **No code execution** — the agent only invokes deterministic pandas operations; there is no `eval`/`exec`/`df.query`. A malicious dataset can't run code.
+- **Per-session isolation** — each browser session gets its own data; nothing is shared globally.
+- **Untrusted-data handling** — `contains` filters are literal (no regex injection / ReDoS); user-controlled text (filenames, column names) is HTML-escaped in the UI; dataset contents are treated as untrusted in the prompt.
+- **Hardened file intake** — only CSV/XLSX; XLSX is checked against zip-bomb expansion; row count and upload size are capped.
+- **No info leakage** — errors are logged server-side; users see generic messages (`SHOW_ERROR=false`).
+- **No telemetry** — Gradio analytics and the monitoring dashboard are disabled.
+- **Resource limits** — upload size, row count, schema size, and table-preview size are all capped.
+- **Optional auth** — set `AUTH_USER`/`AUTH_PASSWORD`, **strongly recommended whenever `SHARE=true`** (a public link is otherwise open to anyone who has it).
+
+Dependencies are CVE-clean (`pip-audit` passes). Re-run it after changing dependencies:
+
+```powershell
+pip install -e ".[dev]"
+pip-audit
+```
+
+⚠️ A public `SHARE=true` link exposes the app over the internet and lets anyone with the link consume your Groq API key — keep it private, add auth, and shut it down (`Ctrl+C`) when done.

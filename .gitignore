@@ -1,23 +1,61 @@
-# Secrets
+# --- Secrets / environment ---
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
 
-# Python
+# --- Python ---
 __pycache__/
 *.py[cod]
+*$py.class
 *.egg-info/
 .eggs/
 build/
 dist/
-.pytest_cache/
+*.so
 
-# Virtual envs
+# --- Test / lint / type caches ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- Virtual envs ---
 venv/
 .venv/
+env/
 
-# OS / editor
+# --- Logs / temp ---
+*.log
+*.tmp
+tmp/
+
+# --- Gradio artifacts ---
+flagged/
+gradio_cached_examples/
+.gradio/
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- Datasets (avoid committing potentially sensitive / PII data) ---
+*.csv
+*.xlsx
+*.xls
+*.parquet
+data/
+
+# --- OS / editor ---
 .DS_Store
+Thumbs.db
 .idea/
 .vscode/
 
+# --- Project-specific (kept intentionally out of version control) ---
 CLAUDE.md
 /.claude

@@ -14,36 +14,37 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402  (must follow backend selection)
 
+# Muted editorial categorical palette (deep teal accent + harmonious earth tones)
+# to match the paper-and-ink UI. No neon, no pastel candy.
 PALETTE = [
-    "#10a37f", "#2563eb", "#f59e0b", "#ef4444",
-    "#8b5cf6", "#06b6d4", "#ec4899", "#84cc16",
-    "#f97316", "#0ea5e9",
+    "#2f6b5f", "#c2823f", "#56678a", "#a8584f",
+    "#7d8a6a", "#806b91", "#b59a4d", "#7a7773",
 ]
 
 
 def setup_light_style() -> None:
-    """Apply the light ChatGPT-style theme to matplotlib's global rcParams."""
+    """Apply the paper-and-ink theme to matplotlib's global rcParams."""
     plt.rcParams.update(
         {
             "figure.facecolor": "#ffffff",
-            "axes.facecolor": "#f9fafb",
-            "axes.edgecolor": "#e5e7eb",
-            "axes.labelcolor": "#374151",
-            "axes.titlecolor": "#111827",
+            "axes.facecolor": "#ffffff",
+            "axes.edgecolor": "#e3e0d8",
+            "axes.labelcolor": "#5f5d57",
+            "axes.titlecolor": "#20201e",
             "axes.titlesize": 13,
-            "axes.titleweight": "semibold",
+            "axes.titleweight": "medium",
             "axes.titlepad": 14,
             "axes.grid": True,
-            "grid.color": "#e5e7eb",
-            "grid.linewidth": 0.7,
+            "grid.color": "#ebe8e1",
+            "grid.linewidth": 0.8,
             "grid.alpha": 1.0,
-            "xtick.color": "#6b7280",
-            "ytick.color": "#6b7280",
+            "xtick.color": "#8a877f",
+            "ytick.color": "#8a877f",
             "xtick.labelsize": 9,
             "ytick.labelsize": 9,
-            "text.color": "#374151",
+            "text.color": "#5f5d57",
             "legend.facecolor": "#ffffff",
-            "legend.edgecolor": "#e5e7eb",
+            "legend.edgecolor": "#e3e0d8",
             "legend.fontsize": 9,
             "font.family": "DejaVu Sans",
             "figure.dpi": 130,

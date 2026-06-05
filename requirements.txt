@@ -1,14 +1,13 @@
-pandas>=2.0
-numpy>=1.24
-matplotlib>=3.7
-openpyxl>=3.1
+# Pinned to known-good, CVE-clean floors (verified with `pip-audit`).
+# Re-run `pip-audit` after changing any of these.
+pandas>=2.2
+numpy>=1.26
+matplotlib>=3.8
+openpyxl>=3.1.5
 tabulate>=0.9
-gradio>=4.44,<5
-langchain-groq>=0.2
-langchain-core>=0.3
+gradio>=6.16              # 6.x clears the CVEs that affected the 4.x line
+pillow>=12.0              # image CVE fixes (also pulled in by gradio)
+langchain-groq>=1.1
+langchain-core>=1.0
 pydantic>=2.5
 pydantic-settings>=2.1
-
-# Transitive pins that the resolver otherwise gets wrong for the Gradio 4.x line:
-huggingface_hub<1.0   # gradio 4.x imports HfFolder, removed in hub 1.0
-websockets<13         # required by gradio-client 1.x

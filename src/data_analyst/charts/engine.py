@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from matplotlib.colors import LinearSegmentedColormap
 
 from ..core.helpers import pick_num
 from .style import PALETTE, save_fig, setup_light_style
@@ -51,12 +52,12 @@ def _bar(data, x, y, title):
     fig, ax = plt.subplots(figsize=(10, 5))
     colors = [PALETTE[i % len(PALETTE)] for i in range(len(df2))]
     bars = ax.bar(df2[x].astype(str), df2[y], color=colors, edgecolor="white", linewidth=0.6, width=0.62)
-    ax.bar_label(bars, fmt="%.4g", padding=3, color="#6b7280", fontsize=8)
-    ax.set_xlabel(x, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_ylabel(y, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_title(title, color="#111827", fontsize=13, fontweight="semibold")
+    ax.bar_label(bars, fmt="%.4g", padding=3, color="#8a877f", fontsize=8)
+    ax.set_xlabel(x, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_ylabel(y, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_title(title, color="#20201e", fontsize=13, fontweight="semibold")
     ax.spines[["top", "right"]].set_visible(False)
-    ax.spines[["left", "bottom"]].set_color("#e5e7eb")
+    ax.spines[["left", "bottom"]].set_color("#e3e0d8")
     plt.xticks(rotation=35, ha="right")
     return save_fig()
 
@@ -74,14 +75,14 @@ def _line(data, x, y, title):
     ax.plot(xs, df2[y], color=PALETTE[0], linewidth=2.2, marker="o", markersize=3.5,
             markerfacecolor="white", markeredgecolor=PALETTE[0], markeredgewidth=1.5)
     ax.fill_between(xs, df2[y], alpha=0.07, color=PALETTE[0])
-    ax.set_xlabel(x, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_ylabel(y, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_title(title, color="#111827", fontsize=13, fontweight="semibold")
+    ax.set_xlabel(x, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_ylabel(y, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_title(title, color="#20201e", fontsize=13, fontweight="semibold")
     step = max(1, len(df2) // 10)
     ax.set_xticks(range(0, len(df2), step))
     ax.set_xticklabels(df2[x].astype(str).iloc[::step], rotation=35, ha="right")
     ax.spines[["top", "right"]].set_visible(False)
-    ax.spines[["left", "bottom"]].set_color("#e5e7eb")
+    ax.spines[["left", "bottom"]].set_color("#e3e0d8")
     return save_fig()
 
 
@@ -97,14 +98,14 @@ def _area(data, x, y, title):
     xs = range(len(df2))
     ax.fill_between(xs, df2[y], alpha=0.18, color=PALETTE[0])
     ax.plot(xs, df2[y], color=PALETTE[0], linewidth=2)
-    ax.set_xlabel(x, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_ylabel(y, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_title(title, color="#111827", fontsize=13, fontweight="semibold")
+    ax.set_xlabel(x, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_ylabel(y, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_title(title, color="#20201e", fontsize=13, fontweight="semibold")
     step = max(1, len(df2) // 10)
     ax.set_xticks(range(0, len(df2), step))
     ax.set_xticklabels(df2[x].astype(str).iloc[::step], rotation=35, ha="right")
     ax.spines[["top", "right"]].set_visible(False)
-    ax.spines[["left", "bottom"]].set_color("#e5e7eb")
+    ax.spines[["left", "bottom"]].set_color("#e3e0d8")
     return save_fig()
 
 
@@ -122,7 +123,7 @@ def _pie(data, x, y, title, donut=False):
         wedgeprops={"linewidth": 2, "edgecolor": "white"}, pctdistance=0.78, startangle=90,
     )
     for t in texts:
-        t.set_color("#374151")
+        t.set_color("#5f5d57")
         t.set_fontsize(9)
     for t in autotexts:
         t.set_color("white")
@@ -130,7 +131,7 @@ def _pie(data, x, y, title, donut=False):
         t.set_fontweight("bold")
     if donut:
         ax.add_patch(plt.Circle((0, 0), 0.55, fc="white"))
-    ax.set_title(title, color="#111827", fontsize=13, fontweight="semibold", pad=16)
+    ax.set_title(title, color="#20201e", fontsize=13, fontweight="semibold", pad=16)
     return save_fig()
 
 
@@ -148,11 +149,11 @@ def _histogram(data, x, y, title):
     ax.axvline(series.mean(), color=PALETTE[3], linewidth=1.6, linestyle="--", label=f"Mean: {series.mean():.4g}")
     ax.axvline(series.median(), color=PALETTE[1], linewidth=1.6, linestyle="--", label=f"Median: {series.median():.4g}")
     ax.legend(framealpha=0.9)
-    ax.set_xlabel(col, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_ylabel("Frequency", labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_title(title, color="#111827", fontsize=13, fontweight="semibold")
+    ax.set_xlabel(col, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_ylabel("Frequency", labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_title(title, color="#20201e", fontsize=13, fontweight="semibold")
     ax.spines[["top", "right"]].set_visible(False)
-    ax.spines[["left", "bottom"]].set_color("#e5e7eb")
+    ax.spines[["left", "bottom"]].set_color("#e3e0d8")
     return save_fig()
 
 
@@ -171,12 +172,12 @@ def _scatter(data, x, y, title):
     xr = np.linspace(df2[x].min(), df2[x].max(), 200)
     ax.plot(xr, m * xr + b, color=PALETTE[3], linewidth=1.8, linestyle="--", label="Linear trend")
     corr = df2[x].corr(df2[y])
-    ax.set_title(f"{title}  (r = {corr:.3f})", color="#111827", fontsize=13, fontweight="semibold")
-    ax.set_xlabel(x, labelpad=8, color="#6b7280", fontsize=10)
-    ax.set_ylabel(y, labelpad=8, color="#6b7280", fontsize=10)
+    ax.set_title(f"{title}  (r = {corr:.3f})", color="#20201e", fontsize=13, fontweight="semibold")
+    ax.set_xlabel(x, labelpad=8, color="#8a877f", fontsize=10)
+    ax.set_ylabel(y, labelpad=8, color="#8a877f", fontsize=10)
     ax.legend(framealpha=0.9)
     ax.spines[["top", "right"]].set_visible(False)
-    ax.spines[["left", "bottom"]].set_color("#e5e7eb")
+    ax.spines[["left", "bottom"]].set_color("#e3e0d8")
     return save_fig()
 
 
@@ -201,13 +202,13 @@ def _box(data, x, y, title):
         0.5, -0.06,
         f"Mean: {stats['mean']:.4g}   Median: {stats['50%']:.4g}\n"
         f"Min: {stats['min']:.4g}   Max: {stats['max']:.4g}   Std: {stats['std']:.4g}",
-        transform=ax.transAxes, ha="center", va="top", fontsize=8.5, color="#6b7280",
+        transform=ax.transAxes, ha="center", va="top", fontsize=8.5, color="#8a877f",
     )
-    ax.set_title(title, color="#111827", fontsize=13, fontweight="semibold")
-    ax.set_ylabel(col, labelpad=8, color="#6b7280", fontsize=10)
+    ax.set_title(title, color="#20201e", fontsize=13, fontweight="semibold")
+    ax.set_ylabel(col, labelpad=8, color="#8a877f", fontsize=10)
     ax.set_xticks([])
     ax.spines[["top", "right"]].set_visible(False)
-    ax.spines[["left", "bottom"]].set_color("#e5e7eb")
+    ax.spines[["left", "bottom"]].set_color("#e3e0d8")
     return save_fig()
 
 
@@ -218,7 +219,11 @@ def _heatmap(data, x, y, title):
     corr = data[num_cols].corr()
     n = len(num_cols)
     fig, ax = plt.subplots(figsize=(max(7, n), max(5, n - 1)))
-    im = ax.imshow(corr.values, cmap="RdYlGn", vmin=-1, vmax=1, aspect="auto")
+    # Diverging colormap: teal (negative) -> paper (zero) -> clay (positive).
+    corr_cmap = LinearSegmentedColormap.from_list(
+        "corr_div", ["#2f6b5f", "#f4f3ef", "#a8584f"]
+    )
+    im = ax.imshow(corr.values, cmap=corr_cmap, vmin=-1, vmax=1, aspect="auto")
     ax.set_xticks(range(n))
     ax.set_yticks(range(n))
     ax.set_xticklabels(num_cols, rotation=45, ha="right", fontsize=8.5)
@@ -227,9 +232,9 @@ def _heatmap(data, x, y, title):
         for j in range(n):
             val = corr.values[i, j]
             ax.text(j, i, f"{val:.2f}", ha="center", va="center", fontsize=7.5,
-                    color="white" if abs(val) > 0.6 else "#374151")
+                    color="#20201e")
     plt.colorbar(im, ax=ax, shrink=0.8)
-    ax.set_title(title, color="#111827", fontsize=13, fontweight="semibold")
+    ax.set_title(title, color="#20201e", fontsize=13, fontweight="bold")
     return save_fig()
 
 

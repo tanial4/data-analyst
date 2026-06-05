@@ -7,11 +7,20 @@ instead of sharing one global.
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass, field
 
 import pandas as pd
 
 from .loader import build_schema
+
+
+def _remove_quietly(path: str | None) -> None:
+    if path:
+        try:
+            os.remove(path)
+        except OSError:
+            pass
 
 
 @dataclass
@@ -39,4 +48,15 @@ class AnalystSession:
         self.schema = build_schema(df)
         self.filename = filename
         self.last_table = pd.DataFrame()
+        self.clear_chart()
+
+    def set_chart(self, path: str | None) -> None:
+        """Record a new chart, deleting the previous temp file to avoid disk leaks."""
+        if path != self.last_chart_path:
+            _remove_quietly(self.last_chart_path)
+        self.last_chart_path = path
+
+    def clear_chart(self) -> None:
+        """Delete the current chart temp file and forget it."""
+        _remove_quietly(self.last_chart_path)
         self.last_chart_path = None

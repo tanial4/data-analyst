@@ -20,6 +20,7 @@ from ..core.operations import run_operation
 from ..core.session import AnalystSession
 
 _MAX_TABLE_ROWS_TO_MODEL = 20
+_MAX_TABLE_COLS_TO_MODEL = 30
 
 
 class RunOperationArgs(BaseModel):
@@ -93,7 +94,8 @@ def build_tools(session: AnalystSession) -> list[StructuredTool]:
 
         if result.table.empty:
             return result.answer
-        preview = result.table.head(_MAX_TABLE_ROWS_TO_MODEL).to_markdown(index=False)
+        preview_df = result.table.iloc[:_MAX_TABLE_ROWS_TO_MODEL, :_MAX_TABLE_COLS_TO_MODEL]
+        preview = preview_df.to_markdown(index=False)
         return f"{result.answer}\n\nResult table:\n{preview}"
 
     def create_chart_tool(
@@ -123,7 +125,7 @@ def build_tools(session: AnalystSession) -> list[StructuredTool]:
                 f"Could not render a {chart_type} chart with x={x!r}, y={y!r}. "
                 "Check that those columns exist in the result table."
             )
-        session.last_chart_path = path
+        session.set_chart(path)
         return f"Chart created ({chart_type}). It is now shown to the user in the Chart tab."
 
     return [

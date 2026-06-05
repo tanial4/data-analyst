@@ -31,7 +31,24 @@ class Settings(BaseSettings):
     share: bool = False
     server_name: str = "127.0.0.1"
     server_port: int = 7860
-    show_error: bool = True
+    # Off by default: showing raw tracebacks in a public UI can leak internal
+    # paths and data. Enable only for local debugging.
+    show_error: bool = False
+
+    # --- Security / limits -------------------------------------------------
+    # Optional HTTP basic auth for the app (recommended when SHARE=true).
+    # Set both to enable a login gate.
+    auth_user: str | None = None
+    auth_password: str | None = None
+    # Reject uploads larger than this (protects against memory-exhaustion DoS).
+    max_upload_mb: int = 50
+
+    @property
+    def auth(self) -> tuple[str, str] | None:
+        """Return an (user, password) tuple if both are configured, else None."""
+        if self.auth_user and self.auth_password:
+            return (self.auth_user, self.auth_password)
+        return None
 
 
 _settings: Settings | None = None

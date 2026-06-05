@@ -50,8 +50,9 @@ class AnalystAgent:
         if not self.session.has_data:
             return AgentResponse("Please upload a CSV or Excel file first so I can analyze it.")
 
-        # Reset per-turn artifacts so a chart from a previous turn isn't reused.
-        self.session.last_chart_path = None
+        # Reset per-turn artifacts so a chart from a previous turn isn't reused
+        # (also deletes the previous chart's temp file).
+        self.session.clear_chart()
 
         messages: list[BaseMessage] = [
             SystemMessage(content=SYSTEM_PROMPT),
